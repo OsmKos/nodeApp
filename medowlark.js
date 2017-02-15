@@ -1,15 +1,9 @@
 var express = require("express");
-
+var motto = require("./lib/motto.js");
 var app = express();
 var handlebars = require("express-handlebars")
 .create({defaultLayout: "main"});
-var mottoes = [
-  "Hear me roar",
-  "Winder is coming",
-  "Fire and blood",
-  "We do not sow",
-  "As high as honour",
-];
+
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
 app.set("port", process.env.PORT || 3000);
@@ -21,8 +15,7 @@ app.get("/", function (req, res) { //app.get добавление маршрут
 });
 
 app.get("/about", function (req, res) {
-  var randomMotto = mottoes[Math.floor(Math.random()*mottoes.length)];
-  res.render("about",{motto: randomMotto});
+  res.render("about",{motto: motto.getMotto() });
 });
 
 app.use(function(req, res) { //пользовательская страница 404
