@@ -1,0 +1,23 @@
+{
+  "name": "osmkos",
+  "version": "1.0.0",
+  "description": "nodeApp",
+  "main": "meadowlark.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OsmKos/nodeApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OsmKos/nodeApp/issues"
+  },
+  "homepage": "https://github.com/OsmKos/nodeApp#readme",
+  "dependencies": {
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0"
+  }
+}
