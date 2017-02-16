@@ -19,6 +19,8 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
+app.disable('x-powered-by');//отключение передачи сервером метаданныx
+
 app.use(express.static("D:/js/projects/nodeApp" + "/public"));
 
 // set 'showTests' context property if the querystring contains test=1
@@ -26,6 +28,43 @@ app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' &&
 		req.query.test === '1';
 	next();
+});
+
+// mocked weather data
+function getWeatherData(){
+    return {
+        locations: [
+            {
+                name: 'Portland',
+                forecastUrl: 'http://www.wunderground.com/US/OR/Portland.html',
+                iconUrl: 'http://icons-ak.wxug.com/i/c/k/cloudy.gif',
+                weather: 'Overcast',
+                temp: '54.1 F (12.3 C)',
+            },
+            {
+                name: 'Bend',
+                forecastUrl: 'http://www.wunderground.com/US/OR/Bend.html',
+                iconUrl: 'http://icons-ak.wxug.com/i/c/k/partlycloudy.gif',
+                weather: 'Partly Cloudy',
+                temp: '55.0 F (12.8 C)',
+            },
+            {
+                name: 'Manzanita',
+                forecastUrl: 'http://www.wunderground.com/US/OR/Manzanita.html',
+                iconUrl: 'http://icons-ak.wxug.com/i/c/k/rain.gif',
+                weather: 'Light Rain',
+                temp: '55.0 F (12.8 C)',
+            },
+        ],
+    };
+}
+
+app.use(function(req, res, next) {
+    if (!res.locals.partials) res.locals.partials = {};
+    res.locals.partials.weatherContext = getWeatherData(); //создаем и иниц обьект weatherContext
+    //res.locals.MyFcknVar = 5;  локальная переменная ответа
+    //console.log(res.locals);
+    next();
 });
 
 
@@ -60,6 +99,7 @@ app.use(function(err, req, res, next){
 	res.status(500);
 	res.render('500');
 });
+
 
 app.listen(app.get('port'), function(){
   console.log( 'Express started on http://localhost:' +
